@@ -46,17 +46,40 @@ const rl = readline.createInterface({
 // () => {} -----> comme function() {}
 // remarque arguments n'existe pas dans une fonction fléchée
 function jouer() {
+  // si le tableau est rempli
+  if (essais.length) {
+    console.log('Vous avez déjà joué : ' + essais.join(' - '));
+    // join -> conversion tableau -> string avec un séparateur au choix
+    // plutot qu'une boucle
+    // conseil aller lire les doc MDN sur string et array qu'on utilise beaucoup
+    // plutot que de réinventer des algos
+  }
+
   rl.question('Quel est le nombre ? ', (reponse) => {
     // ici reponse est de type string, pour convertir en nombre :
     const entierSaisi = Number(reponse);
+
+    essais.push(entierSaisi);
+
+    if (entierSaisi > entierAlea) {
+      console.log('Trop Grand');
+      return jouer(); // plutot qu'un else on préfère souvent
+      // sortir de la fonction pour alléger la suite
+    }
+
+    if (entierSaisi < entierAlea) {
+      console.log('Trop Petit');
+      return jouer(); // plutot qu'un else on préfère souvent
+      // sortir de la fonction pour alléger la suite
+    }
     
-    // ici on rejoue (au choix)
-    jouer();
-    // ici on stoppe le programme
-    // rl.close();
+    console.log('Gagné');
+    rl.close();
   });
 }
 
+const entierAlea = Math.floor(Math.random() * 101);
+const essais = [];
 jouer();
 
 // le but est de pouvoir rejouer
