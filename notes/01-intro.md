@@ -53,3 +53,7 @@ On va créer un projet ce matin appeler Langage dans VSCode (un projet est juste
 
 Je vais vous partager les sources et mes notes sur mon Github :
 https://github.com/bioub
+
+Avec VSCode on peut ouvrir plusieurs projet dans la même fenetre en allant dans
+File > Add folder to workspace
+
