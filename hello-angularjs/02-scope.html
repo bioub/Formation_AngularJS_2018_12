@@ -93,7 +93,14 @@
     Surtout que dans Chrome 70, une nouveautés : Live Expression
     => raffraichir régulière l'expression
 
-    On fait une petite pause (10-15 min)
+    ng-repeat va également créer des variables sur son scope
+    $index, $first, $middle, $last, $odd, $even
+    $index: indice du tableau
+    les autres, des booleans true si premier, dernier, pair, impair...
+
+    Dans AngularJS, les variables qui commence par $ sont en lecture seule
+    celles qui commencent pas $$ sont privée (on a pas de mot clé private
+    donc on fait comme si elles étaient privées)
   -->
   <div ng-app>
     <div>
@@ -102,7 +109,9 @@
     <!-- pour chaque prenom dans le tableau prenoms on repète le paragraphe -->
     <p ng-repeat="prenom in prenoms"> 
       <!-- prenom est défini dans le scope de ng-repeat -->
-      Bonjour <span ng-bind="prenom"></span> !
+      <!-- prenoms reste disponible ici (comme en JS on a accès aux scope du dessus) -->
+      <span ng-bind="$index"></span> <span ng-bind="prenom"></span> !
+      <button ng-if="$last">Dernier</button>
     </p>
   </div>
 </body>

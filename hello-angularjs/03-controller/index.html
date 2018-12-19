@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<!-- quand on commence à écrire du JS, il faut dire à Angular
+quel est le module principal ici 'app.module' 
+pour la suite je vais l'appeler app.module car c'est son nom dans Angular v2+
+-->
+<body ng-app="app.module">
+  <!--
+    Dans cet exemple je vais ajouter un bouton
+    et au clic du bouton on va ajouter le prénom à un tableau
+    qu'on va afficher avec ng-repeat
+
+    La directive qui ajouter un élement à un tableau au clic d'un bouton
+    n'existe pas donc il va falloir commencer à écrire du JS
+
+    Pour écrire du JS et avoir accès au scope, on utilise un controller
+
+    ng-bind peut se remplacer par {{}}
+    ici je n'ai pas à créer la balise span
+  -->
+
+  <!-- 
+    on demande à angular d'instancier le controller PrenomCtrl
+    ici on créer un scope que l'on peut récupérer depuis le controller
+    avec $scope
+    
+    on a 2 variables prenom, une défini dans le scope de ng-controller
+    une dans le scope de ng-repeat
+    dans ce cas, ng-bind dans ng-repeat accède au prenom de ng-repeat
+    si vous voulez récupérer le prénom du dessus
+    on peut écrire $parent.prenom ($parent = scope parent)
+  -->
+  <div ng-controller="PrenomCtrl">
+    <div>
+      Prénom : <input ng-model="prenom">
+      <!-- pour écouter des événements dans le template 
+        on utilise la directive ng-nomdelevenement
+        ex: ng-click
+        tout les événéments n'existe pas non plus (parfois on le fait
+        dans le JS, ex: ng-play sur une video n'existe pas)
+        
+        Ca ressemble à du JS ancien (onclick="add()"), mais avec l'avantage
+        que add n'est pas global puisque définie sur le scope de PrenomCtrl
+      -->
+      <button ng-click="add()">+</button>
+    </div>
+    <p ng-repeat="prenom in prenoms">
+      Bonjour {{prenom}} {{$parent.prenom}} !
+      <button>-</button>
+    </p>
+    <p>n prenoms</p>
+  </div>
+  <script src="../node_modules/angular/angular.js"></script>
+  <script src="app.js"></script>
+  <!-- 
+    Exercice pour finir 
+    1/ Afficher le nombre d'éléments dans le tableau
+
+    2/ Au clic du bouton moins, supprimer l'élement du tableau
+    (s'il n'est plus dans le tableau le HTML va se raffraichir tout seul)
+    Pour supprimer un élément regarder sur MDN: Array.prototype.splice
+
+    3/ optionnel
+    Au survol d'un ng-repeat afficher dans le ng-repeat l'indice du tableau
+    ng-mouseover (regarder la doc d'api)
+    ng-if
+    $index
+  -->
+</body>
+</html>
