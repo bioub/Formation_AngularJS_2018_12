@@ -1,0 +1,69 @@
+<!-- si vous appuyez sur ! puis ENTREE -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <!--
+    Dans ce fichier je vais écrire un exemple
+    en utilisant l'API DOM du navigateur, on le traduira
+    ensuite en version AngularJS pour comparer les différences
+    Dans cet exemple j'aimerais que lorsqu'on saisisse qqchose
+    dans le champs input, la valeur soit recopier en temps réel
+    dans la balise span
+
+    Pour tester plus facilement, on va installer un server web
+    avec npm install -g live-server
+    puis 
+    live-server pour démarrer un serveur web
+    (live-server va détecter les changements dans les fichiers
+    et raffraichir le navigateur tout seul)
+
+    Je vais écrire une première version mais ne la notez pas
+  -->
+  <div>
+    Prénom : <input>
+  </div>
+  <p>
+    Bonjour <span></span> !
+  </p>
+  <script>
+    // historiquement en JS, on peut exécuter du JS dans des
+    // attribut on...
+    // aujourd'hui on considère ça comme une mauvaise pratique
+    // car changePrenom doit être global (donc risque de conflit)
+    // sur une petite application c'est pas génant mais imaginer le site
+    // de Facebook, ~ 1 000 000 de ligne de JS
+
+    // Pour éviter ça, il faut créer un module (déjà vu avec CommonJS dans l'exercice)
+    // le plus simple est un module IIFE, Immediately Invoked Function Expression
+    (function() {
+      // une fonction qu'on appelle tout de suite
+      // son seul intéret : créer une portée (autre que globale)
+      // maintenant changePrenom est locale au module
+      // (en général 1 fichier = 1 module)
+      function changePrenom() {
+        // on recopie la valeur du champs dans la balise span :
+        spanElt.innerText = inputElt.value;
+      }
+
+      // ici on sélectionne dans l'API DOM le noeud qui correspond
+      // à la balise input ("classe" HTMLInputElement sur MDN)
+      // HTMLInputElement hérite de HTMLElement qui hérite de Element
+      // qui hérite de Node qui hérite de EventTarget
+      // querySelector permet de sélectionner avec un selecteur CSS
+      // ex: #prenom si l'id="prenom"
+      const inputElt = document.querySelector('input');
+      const spanElt = document.querySelector('span');
+      // ici on écoute l'événement input du champs :
+      inputElt.addEventListener('input', changePrenom);
+    }())
+
+    
+  </script>
+</body>
+</html>

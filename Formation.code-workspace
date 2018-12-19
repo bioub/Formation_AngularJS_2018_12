@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "langage"
+		},
+		{
+			"path": "hello-angularjs"
 		}
 	],
 	"settings": {}

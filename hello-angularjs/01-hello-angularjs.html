@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="node_modules/angular/angular.js"></script>
+</head>
+
+<body>
+  <!--
+    On va refaire le même exemple avec AngularJS
+    (et découvrir les premiers concepts)
+    Contrairement au DOM, AngularJS n'est pas natif du navigateur
+    il faut charger le script
+    En appuyant sur CTRL-Espace vous pouvez activer la complétion
+
+    Dans AngularJS notre code va être composé de 2 parties :
+    - une partie JavaScript
+    - une partie HTML (template)
+    
+    Dans le template AngularJS nous donne accès a des attributs custom
+    appelés directives (ex: ng-bind, ng-model...)
+
+    Ces directives sont parsées et une fonction JavaScript associée sera
+    alors exécutées
+
+    Ici notre template est composé de 3 directives
+    On a terminé (donc ça peut aller très vite de développé quand on 
+    connait les concepts)
+
+    VSCode ne fourni pas de complétion pour les directives AngularJS
+    mais Webstorm le fait.
+
+    Concepts :
+    - directive: attribut créé par AngularJS ou autre (open-source ou nous même)
+    parsée par AngularJS au chargement de la page et auquel une fonction JavaScript
+    est associée
+    - compilation : au chargement de la page, les directives sont exécutées on appelle
+    ça la compilation
+    - data-binding : synchronisation entre le Model et la Vue, ici :
+      • ng-bind: à chaque changement de contenu de la variable prenom
+      on modifie le innerHTML du span (on écoute les changements du Model)
+      • ng-model: 2 way data-binding, à la fois on écoute les changements du
+      Model pour modifier la propriété value du champs, mais aussi on écoute
+      les changements de la Vue (à chaque frappe clavier) on met à jour le Model
+    - scope : comme en JavaScript on a des portées dans un template AngularJS
+    la portée globale étant définie par ng-app (en dehors de la balise <div ng-app>
+    on a pas accès à prenom)
+    - ng-app : une directive qui définie la portée racine (rootScope) et qui bootstrap
+    l'application c'est à dire lance la compilation, AngularJS va parcourir récursivement
+    le HTML à la recherche de directives en partant de ng-app
+
+    on va créer un 2e exemple proche de celui-ci, vous pouvez copier-coller
+  -->
+  <div ng-app>
+    <div>
+      Prénom : <input ng-model="prenom">
+    </div>
+    <p>
+      Bonjour <span ng-bind="prenom"></span> !
+    </p>
+  </div>
+</body>
+
+</html>

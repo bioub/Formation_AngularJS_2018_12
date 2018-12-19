@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="node_modules/angular/angular.js"></script>
+</head>
+
+<body>
+  <!--
+    Dans cet exemple on va voir que d'autres directives peuvent créer
+    des scopes (ex: ng-if, ng-repeat, ng-controller....)
+    Je vais légèrement modifier l'exemple pour qu'on puisse saisir plusieurs
+    prénoms dans le champs
+    (pour découvrir les directive on peut lire la doc d'API)
+    ng-list, va transformer la variable associées à ng-model en tableau
+    Pour ajouter des éléments au tableau, il suffit de saisir des prénoms en
+    les séparant par une virgule
+    ng-repeat, permet de boucler en repétant la balise sur laquelle il se trouve
+    autant de fois qu'il y a :
+    - d'élément dans un tableau
+    - de clés dans un objet
+    - ou meme de lettre dans un chaine de caractère
+
+    Ce que montre cet exemple c'est l'utilisation des Scopes qui on le même
+    fonctionnement que les fonctions en JS (on peut les imbriquer et on a accès
+    au portées du dessus - Closure)
+
+    Ici :
+    function ngApp() {
+      var prenoms = [];
+      function ngRepeat1() {
+        var prenom = '';
+      }
+      function ngRepeat2() {
+        var prenom = '';
+      }
+    }
+
+    Pour visualiser les scopes, on peut utiliser une extension de Chrome ou
+    Firefox.
+    Mais aussi simplement utiliser les outils de dev :
+    à chaque balise qui créé un scope, la classe ng-scope est ajouter
+    pour les faire apparaitre graphiquement il suffit d'un peu de CSS
+    .ng-scope {
+      border: 1px solid black;
+    }
+    Le mieux serait de connaitre les variables qui sont déclarée à l'intérieur
+    les scopes sont dans AngularJS des objets, pour récupérer ces objets
+    on peut se servir d'une extension de Chrome ou autre
+    ou bien de la Console des DevTools
+
+    AngularJS créé une variable global angular
+    Cette variable globale est un objet qui contient des méthodes
+
+    La plupart n'ont plus d'intérêt aujourd'hui :
+    Ex: bind, forEach, fromJson, toJSON...
+    Car le navigateur les implémentes nativement
+    bind -> Function.prototype.bind
+    forEach -> Array.prototype.forEach
+    fromJson -> JSON.parse
+    toJSON -> JSON.stringify
+    Elles sont surtout la pour la compatibilité IE8, dans lequel elle n'existe pas
+    Aujourd'hui IE8 ~ 0,1% de part de marché
+
+    Celles qui nous intéressent le plus :
+    • bootstrap, element, injector, module
+    bootstrap: la méthode lancée par ng-app (parfois on ne peut pas utiliser
+    ng-app et on utilise angular.bootstrap à la place, 2 cas principaux
+    - si ng-app arrive après que la page soit prete, l'événement DOMContentLoaded
+    ne se produit plus et donc il faut bootstraper manuellement, 
+    - si on a plusieurs app angular sur la même, pas recommandé pour la perf)
+    • element: version allégée de jQuery (appelée JQLite) avec des méthodes supplémentaires
+    • injector: Conteneur d'Injection de Dépendance (annuaire d'objet on en parlera demain)
+    • module: ce qui nous permet d'écrire le code JS en lien avec un template
+    (pour l'instant il n'y en pas parce les exemples sont très simples)
+
+    JQLite : version allégée de jQuery
+    Si jQuery se trouve sur la page, le vrai jQuery est utilisé
+    JQLite ne permet pas de sélectionner par sélecteur CSS
+    mais comme jQuery on peut lui passer des variables
+
+    Dans la console de Chrome $0 est une variable qui est créé automatiquement
+    et qui représente l'élément sélectionné dans l'onglet élément
+
+    On va aller selectionner une balise dans un scope dans l'onglet élément
+    avec angular.element($0).scope() le scope va s'afficher
+
+    Je préfère utiliser ça que les extensions qui parfois font bugguer l'app
+    Surtout que dans Chrome 70, une nouveautés : Live Expression
+    => raffraichir régulière l'expression
+
+    On fait une petite pause (10-15 min)
+  -->
+  <div ng-app>
+    <div>
+      Prénoms : <input ng-model="prenoms" ng-list>
+    </div>
+    <!-- pour chaque prenom dans le tableau prenoms on repète le paragraphe -->
+    <p ng-repeat="prenom in prenoms"> 
+      <!-- prenom est défini dans le scope de ng-repeat -->
+      Bonjour <span ng-bind="prenom"></span> !
+    </p>
+  </div>
+</body>
+
+</html>

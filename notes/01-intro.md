@@ -57,3 +57,57 @@ https://github.com/bioub
 Avec VSCode on peut ouvrir plusieurs projet dans la même fenetre en allant dans
 File > Add folder to workspace
 
+On va commencer AngularJS, déjà regarder le site web et la doc.
+
+Ne pas confondre 2 sites web :
+AngularJS: https://angularjs.org/
+Angular 2 et + : 
+https://angular.io/
+
+Sur le site AngularJS
+- un tutoriel plutot bien fait, que vous pourrez refaire après la formation :
+https://docs.angularjs.org/tutorial
+- un developper guide, qui couvre les concepts d'AngularJS
+https://docs.angularjs.org/guide
+- API Reference, c'est la doc qui décrit les fonctions et les composants d'AngularJS
+https://docs.angularjs.org/api
+
+Sur la page d'accueil, il y a bouton download, on nous propose plusieurs choix (version 1.7 actuelle et la 1.2 qui est la car la seule compatible IE8) :
+- CDN le script reste sur les serveurs de Google
+- bower => déprécié (mais peut etre dans vos projets)
+- npm => (Node Package Manager, installé en même que Node.js), l'équivalent de maven en java ou nuget en C#, gestionnaire de dépendances (type apt-get sous Linux) (on va utiliser npm)
+- fichiers ZIP
+
+On va créer un projet hello-angularjs pour découvrir aujourd'hui les concepts d'AngularJS
+
+Vous pouvez créer les fichiers en même temps que moi.
+
+Le fichier package.json va permettre de mémoriser les versions des bibliothèques installées avec npm.
+
+Pour installer AngularJS avec npm, dans un terminal :
+npm install angular
+
+Cette commande fait 3 choses :
+- installer AngularJS dans le dossier node_modules
+- ajouter une section dependencies avec la version AngularJS
+installée dans package.json
+- créer un fichier package-lock.json et mémoriser la version AngularJS installée, l'URL pour la retélécharger et un checksum pour éviter que lors d'un nouveau téléchargement on installe une version hackée
+
+Dans le package.json la version est préfixée par un ^, ce qui veut dire qu'en cas de mise à jour, on verrouille de premier chiffre.
+
+Dans une numérotation 1.2.3
+1: version majeure
+2: version mineure
+3: version patch ou correctif
+
+Pour une bibliothèque comme AngularJS
+incrémenter le patch => aucun changement de l'API (les fonction sont les mêmes, mêmes paramètres...)
+incrémenter mineure => changement rétro-compatible (ex:
+nouvelle fonction)
+incrémenter majeure => changement rétro-incompatible (ex: fonction supprimée, renommée...)
+
+AngularJS ne respecte PAS ce principe, donc on peut avoir des changements rétro-incompatible entre la 1.6 et la 1.7
+
+Mais Angular le respecte et c'est la raison qui fait qu'aujourd'hui on en est à Angular 7 déjà.
+
+Dans le package.json on devrait donc plutot remplacer le ^ par un ~ qui vérouille la version mineure (sachant que la 1.7 sera la dernière version d'AngularJS, Google a annoncé la fin du support pour 2021)
