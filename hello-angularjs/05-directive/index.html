@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body ng-app="app.module">
+  <!--
+    Dans cette exemple, je vais créer une directive
+    Une directive peut servir à beaucoup de choses, dans Angular v2+ ça existe
+    toujours mais bcp plus restreint.
+    Ici je vais créer un attribut personnalise (comme ng-model)
+    qui va remplir le DOM de l'élément sur lequel il se trouve (plus possible dans v2+)
+    Ce que j'aimerais pour mon exemple que le template ici s'écrive
+    <div list-prenoms></div>
+    Et donc que list-prenoms masque le HTML et le JS
+    Si je teste cet exemple il ne se passe rien, car list-prenoms n'existe pas
+    Donc c'est un peu plus compliquer à créer, mais plus simple à utiliser
+    surtout si je me sers de cette directive plusieurs fois.
+
+    Juste avant de voir les composants et on le fera ensemble.
+    Je vais vous montrer une autre nouveauté de la 1.5 controllerAs
+    Ça va nous permettre de récupérer la référence de l'objet Controller
+    sur le scope (rappelez vous, qu'on controller est une constructor function,
+    AngularJS l'instancie pour nous donc on bien un objet quelque part.)
+  -->
+  <div list-prenoms></div>
+  <!--
+   <div ng-controller="PrenomCtrl">
+    <div>
+      Prénom : <input ng-model="prenom">
+      <button ng-click="add()">+</button>
+    </div>
+    <p ng-repeat="prenom in prenoms track by $index">
+      • {{prenom}}
+    </p>
+    <p>{{prenoms.length}} prenoms</p>
+  </div>
+  -->
+  <script src="../node_modules/angular/angular.js"></script>
+  <script src="app.js"></script>
+ </body>
+</html>

@@ -44,6 +44,10 @@
     $scope.add = function() {
       $scope.prenoms.push($scope.prenom);
     }
+
+    $scope.delete = function(i) {
+      $scope.prenoms.splice(i, 1); // supprime 1 élément à partir de i
+    };
   }
 
   module.controller('PrenomCtrl', PrenomCtrl); // la fonction est souvent anonyme

@@ -1,0 +1,12 @@
+<!--
+  $ctrl ici est défini sur le scope (dans AngularJS le scope existe toujours)
+  mais on va passer par cette variable plutot que par le scope directement
+-->
+<div>
+  Prénom : <input ng-model="$ctrl.prenom">
+  <button ng-click="$ctrl.add()">+</button>
+</div>
+<p ng-repeat="prenom in $ctrl.prenoms track by $index">
+  • {{prenom}} <!-- celui non, car il est sur le scope du ng-repeat -->
+</p>
+<p>{{$ctrl.prenoms.length}} prenoms</p>

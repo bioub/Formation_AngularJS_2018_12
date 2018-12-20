@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body ng-app="app.module">
+  <!--
+    Dans cet exemple, je vais ajouter 2 possibilités
+    Le tri
+    Un filtre par texte (les prénoms qui contiennent certains suites de lettres)
+    On va s'aider de la doc d'API, car je ne l'ai pas fait depuis longtemps
+    et ce sera l'occasion de lire la doc.
+    Dans la doc d'API, vous allez trouver :
+    - fonctions
+    - directives
+    - filtres
+    - providers
+    - services
+    Aussi on va trouver plusieurs sections qui correspondent à des fichiers JS
+    différents, ex: pour créer une Single Page Application, j'ai besoin d'un Router
+    qui n'est pas dans le script actuel
+    pour créer un version multi-lingue idem...
+    ng: le script principal (actuel) -> npm install angular
+    ngMessages : les directives et services d'une version multilingues -> npm install angular-messages
+    ...
+
+    On a déjà vu quelques 
+    Directives :
+    ngApp, ngBind, ngClick....
+    Fonctions : element, module...
+    
+    On va ici utiliser le filtre filter et orderBy
+    A chaque fois, on va trouver des explications et des exemples qu'on
+    peut meme modifier sur le site
+    Dans l'exemple il y a un input avec ng-model
+    Ensuite sur le ng-repeat on retrouve un | (pipe) puis le nom du filtre:uneVariable
+    | veut dire qu'on appelle le filtre (une fonction) : ses paramètres
+    si une seule fois :, 1 seul param, 2 fois : 2 params...
+    Dans la docs, Arguments
+    Array : le tableau qu'on filtre
+    expression : le premier param (plein de possibilité pour expression)
+    si c'est une string on recherche sur l'ensemble de la valeur (avec !, on veut l'opposé)
+    si c'est un objet, notre tableau doit etre un tableau d'objet et on filtre par clé
+    du l'objet {prenom: 'R'} -> les prenoms qui contiennent un R
+    comparator : le deuxième param
+
+    Pour le tri :
+    Dans les exemples ils montrent avec des tableau d'objets,
+    Nous on a un tableau de string, on va demander à Google, on peut
+    passer une méthode à orderBy, il propose qu'on passer toString()
+    C'est aussi plutot simple
+    On peut aussi passer une fonction de comparaison si le cas est plus compliqué
+    function compare(val1, val2) {
+      if (val1.taille > val2.taille) {
+        return -1;
+      }
+      if (val1.taille < val2.taille) {
+        return +1;
+      }
+      return 0;
+    }
+    Voilà pour 2 exemples de filtres existants
+    On peut également créer son propre filtre depuis un module via la
+    méthode filter, ex :
+    https://docs.angularjs.org/guide/filter#creating-custom-filters
+    Dans l'exemple, il ont créer un filtre reverse, pour inverse l'ordre des lettres
+    C'est assez simple, on passe à la méthode filter une factory qui retourne
+    le filtre.
+    Vous comprendez tout à l'heure la factory, car parfois on a besoin d'un service
+    Pour le filtre, on peut le demander à la factory, par exemple $http si le
+    filtrer doit faire une requete
+
+    Maintenant je vais changer de sujet. On va voir comment structurer notre
+    exemple avec la liste de prénom différents (plus proche du style Angular v2+) :
+    - exemple 1: créer une directive
+    - exemple 2: créer un composant (new in 1.5)
+
+    Pareil je vais l'écrire moi.
+  -->
+  <div ng-controller="PrenomCtrl">
+    <p>Filtre : <input ng-model="monFiltre"></p>
+    <p>
+      <button ng-click="desc = false">croissant</button>
+      <button ng-click="desc = true">décroissant</button>
+    </p>
+    <!--
+      filter: c'est vraiment simple
+      ça ne change pas la taille du tableau
+    -->
+    <p ng-repeat="prenom in prenoms | orderBy:'toString()':desc | filter:monFiltre track by $index">
+      • {{prenom}} !
+    </p>
+    <p>{{prenoms.length}} prenoms</p>
+  </div>
+  <script src="../node_modules/angular/angular.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

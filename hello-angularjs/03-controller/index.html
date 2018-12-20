@@ -50,27 +50,127 @@ pour la suite je vais l'appeler app.module car c'est son nom dans Angular v2+
       -->
       <button ng-click="add()">+</button>
     </div>
-    <p ng-repeat="prenom in prenoms">
+    <p ng-repeat="prenom in prenoms track by $index" ng-mouseenter="show = true" ng-mouseleave="show = false">
+      <span ng-if="show">{{$index}}</span>
       Bonjour {{prenom}} {{$parent.prenom}} !
-      <button>-</button>
+      <button ng-click="delete($index)">-</button>
     </p>
-    <p>n prenoms</p>
+    <p>{{prenoms.length}} prenoms</p>
   </div>
   <script src="../node_modules/angular/angular.js"></script>
   <script src="app.js"></script>
   <!-- 
     Exercice pour finir 
     1/ Afficher le nombre d'éléments dans le tableau
+    -> Le plus simple c'était celui ci, il faut juste au bon endroit dans
+    le template afficher leTableau.length
+    On va déjà tester cette partie
+    On vient de voir un petit bug ici, les éléments s'ajoutent au tableau
+    mais pas au ng-repeat.
+    Dans tous les frameworks aujourd'hui, les listes peuvent poser des problèmes
+    de perfs. Pk ? Parce que à chaque élément de la liste, le framework doit
+    vérifier si la valeur est à jour, et éventuellement raffraichir le DOM si besoin
+    Dans AngularJS, le processus de mise à jour se fait via :
+    - coté binding Vue -> Model : des événements du DOM (oninput comme dans l'ex d'hier)
+    - côté binding Model -> Vue : on ne peut pas écouter les changements sur un objet
+    (pour être précis, il y a eu une tentative d'ajouter à la norme JS Object.observe
+    mais ça a été retiré car moins performant que ce que faisait les frameworks)
+    Dans AngularJS, le process s'appelle du Dirty Checking, le principe c'est qu'à 
+    chaque ng-bind, {{}}, ng-model ou autre binding M -> V une fonction est associée
+    On appelle cette fonction un Watcher. S'il y a 1000 éléments dans une liste avec
+    un ng-repeat et 1 fois {{}} par ng-repeat, ça fait donc 1000 watchers + 1 pour le ng-repeat
+    Donc à chaque possible changement, par exemple lors qu'on appuie sur un bouton
+    auquel il y a un ng-click, on doit exécuter ces 1000 fonctions (imaginez une animation
+    en cours, va t-elle tourner à 60FPS ?)
+    On considère que 1000 Watchers par application à un instant t, est une limite à ne pas
+    dépasser.
+    Pour connaitre le nombre de Watcher en cours, on peut utiliser comme le scope
+    une extension ou bien la console
+    J'ai plusieurs {{}} par ng-repeat ici (2 par ng-repeat)
+    Dans Angular v2+, le système est complètement différent :
+    - plus de watchers
+    - plus de controllers
+    - plus de scope
+    Donc difficile à migrer
+    Ce matin je vais vous montrer qu'on peut cependant écrire un app AngularJS
+    dans un style Angular (pour faciliter une migration)
+
+    Sur github, il y a un projet qui teste la performance des frameworks sur des
+    opérations sur une liste avec 1000 éléments (création, tri, suppression...)
+    https://github.com/krausest/js-framework-benchmark
+    On va regarder les résultats de :
+    - AngularJS, EmberJS, backbone/Marionnette, Knouckout (tous apparus fin 2000)
+    - Angular, React, VueJS (apparus récemment et plus rapide)
+    marionnette ça doit sans framework (sans backbone)
+    je vais ajouter VanillaJS qui veut sans framework (juste le DOM)
+    pour comparer par rapport à pas de bibliothèque
+    Evidemment sans framework ça plus vite, mais plus long à développer
+    Le 1.00 veut dire 100% de la version la plus rapide
+    1.8, 80% plus lent, 2.0 2 fois plus lent
+    On voit en résultat que les nouveaux frameworks sont plus rapides que leurs
+    prédécesseur (pour React on l'utilise rarement seul, souvent avec Redux,
+    parce que dans React on ne peut pas facilement passer une donnée d'un partie 
+    de l'application à une autre, alors que dans AngularJS et Angular on va utiliser
+    des Services pour ça, chapitre du jour).
+    angular-optimized, est une version où on s'obliger à utiliser des concepts et
+    en retirer d'autres pour améliorer les perfs mais le dev est plus compliqué.
+
+    Comment améliorer les perfs ?
+    - 1 possibilité réduire le nombre de watcher, en réduisant notre liste au élément
+    qui sont affichés et pas à tous les éléments du DOM (on ne peut pas afficher les 
+    1000 éléments de la liste en meme temps sur une fenetre)
+    => Virtual Scroll: via une bibliothèque, on écoute le scroll et on ne créé
+    dans le DOM que les éléments affichés
+    Ex ici : http://kamilkp.github.io/angular-vs-repeat/#?tab=8
+    Dans ma résolution il n'y a que 9 éléments ng-repeat dans le DOM
+    Au scroll vous aller voir qu'on va raffraichir ces 9 éléments
+    Donc ça à bien permis de réduire les watchers.
+    - 2e possibilité (surtout pour le tri, la suppression)
+    Imaginer (suite à l'exercice) qu'on supprimer le 2e élément d'une liste avec 
+    10 éléments => nouvelle liste avec 9 éléments, le premier de la liste est le 
+    meme, donc son watcher dira de ne pas mettre à jour le DOM
+    mais les 8 qui suivent sont différents, donc on va mettre à jour les 8 balises
+    suivantes.
+    Pour améliorer les choses, on pourrait créer un index (comme dans une base données)
+    Si on est capable de dire que chaque élément est associé à une clé unique
+    A la suppression, on ne supprimerait que le 2e éléments du DOM, les autres
+    etant toujours associé à leur clé.
+    AngularJS le fait par défaut, il utilise la valeur en clé.
+    Mais cette clé (comme un clé primaire) doit être unique pour que ça fonctionne
+    et en ajoutant une 2e fois la même valeur je créé un doublon (duplicate)
+    Si ça avait été des objets, il aurait suffit que créer un nouvel objet
+    Avec des chaines de char, ça fait des doublons
+    Pour nous 2 solutions :
+    - empecher 2 fois la même valeur (au moment du click)
+    vérifier si elle n'est pas dans le tableau
+    - changer de clé, dans l'idéal si tableau d'objet qui vient du serveur vous
+    aurez surement la clé primaire de la BDD, on utilisera cette clé.
+    ici ce n'est pas le cas, donc je vais utiliser soit une valeur générée
+    soit $index (mais $index change donc ce n'est pas optimal)
+    Pour spécifier la clé, on utiliser "track by" dans le ng-repeat
+
 
     2/ Au clic du bouton moins, supprimer l'élement du tableau
     (s'il n'est plus dans le tableau le HTML va se raffraichir tout seul)
     Pour supprimer un élément regarder sur MDN: Array.prototype.splice
+    Pour corriger cet exercice je vais créer une fonction delete sur le scope
+    qui recevera en entrée soit l'élément, soit l'indice puisque splice
+    supprime par indice.
 
     3/ optionnel
     Au survol d'un ng-repeat afficher dans le ng-repeat l'indice du tableau
     ng-mouseover (regarder la doc d'api)
     ng-if
     $index
+    Dernier exercice (énoncé n'est génial mais il fallait trouver qqchose)
+    Je vais au survol du ng-repeat créer une variable show = true
+    A la sortie show = false
+    Avec un ng-if sur show on va afficher $index (pas besoin de app.js)
+
+    Pour commencer aujourd'hui on va corriger l'ex d'hier
+
+    Je vais vous montrer les filtres pour commencer
+    Ne prenez pas l'exemple je vais vous le partager.
   -->
 </body>
 </html>
