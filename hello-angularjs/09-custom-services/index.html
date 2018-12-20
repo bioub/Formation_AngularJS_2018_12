@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<!-- ici pas d'erreur si j'ai annoté, sinon
+[$injector:strictdi] PrenomCtrl is not using explicit annotation and cannot be invoked in strict mode -->
+<body ng-app="app.module" ng-strict-di>
+  <list-prenoms></list-prenoms>
+  <alert></alert>
+  <script src="../node_modules/angular/angular.js"></script>
+  <script src="app.js"></script>
+  <script src="alert/alert.component.js"></script>
+  <script src="alert/alert.service.js"></script>
+ </body>
+</html>

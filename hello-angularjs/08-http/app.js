@@ -18,12 +18,58 @@
   // fonction qui a été ajouté à l'injecteur (annuaire) d'AngularJS
   // on peut connaitre les services dans la doc d'API
   // tout ces services sont injectable, ex : $interval
-  function PrenomCtrl($interval, $rootScope, $scope, $http) {
+  function PrenomCtrl($interval, $rootScope, $scope, $http, $q) {
     // $http, permet de faire des requetes vers le serveur
     // et de relancer la détection de changement une fois la reponse reçu
     // il vaut mieux $http que XMLHttpRequest ou jQuery.ajax ou fetch ou axios...
 
-    // à nouveau il faut que je fasse un point langage
+    // pour faire une requete, on utilise
+    // $http.get(); // pour une requete GET, idem pour POST, DELETE, HEAD
+    // $http.post();
+    // $http.delete(); //...
+
+    $http.get('https://jsonplaceholder.typicode.com/users')
+      .then(function(res) {
+        // ici il faut que je transforme, res.data qui est un tableau
+        // d'objet, en un tableau de string
+        // rappelez vous de la fonction map
+        $ctrl.prenoms = res.data.map(function(user) {
+          return user.name;
+        });
+      });
+
+
+    // si vous voulez utiliser Promise.all, le mieux c'est via
+    // $q.all() qui sera compatible IE11
+    // ex :
+    /*
+    $q.all([
+      $http.get('https://jsonplaceholder.typicode.com/users'),
+      $http.get('https://jsonplaceholder.typicode.com/todos'),
+    ]).then(function (responses) {
+      var users = responses[0].data;
+      var todos = responses[1].data;
+      console.log(users);
+      console.log(todos);
+      // on pourrait fusionner les 2
+    });
+    */
+
+    // pour finir aujourd'hui on va créer nos propres services.
+    // ça a plusieurs intérets, avoir des fonctionnalités accessible
+    // via angular en factorisant ce code mais aussi pouvoir communiquer
+    // entre 2 composants sans passer par le scope
+    // je vais créer un service, car je trouve que recupérer la liste de mes
+    // prénoms est trop compliqué, je dois connaitre l'URL, je dois eventuellement
+    // gérer les erreurs, et je dois transformer la réponse, je pourrais faire tout
+    // ça dans un service.
+    // autre intérêt, si je met $http dans ce service, le jour ou j'ai besoin d'accéder
+    // à mes données différemment, il faut juste que je réécrive un nouveau
+    // service avec les memes methodes.
+    // Alors que la je dois modifier chaque composant, donc ça simplifierait une
+    // migration (par exemple vers des WebSockets, ou GraphQL qui sont à la mode
+    // en ce moment à la place d'Ajax)
+    // on va le faire dans un nouveau dossier.
 
     // $interval : le même API que setInterval
     // va appeler le callback asynchrone toutes les secondes (via l'event loop)
@@ -36,6 +82,7 @@
     // $window à window,
     // $timeout à setTimeout
     // $log à console.log
+    // $location à location (changement de page...)
 
     // on sauvegarde this dans la variable $ctrl pour les callback async
     var $ctrl = this;

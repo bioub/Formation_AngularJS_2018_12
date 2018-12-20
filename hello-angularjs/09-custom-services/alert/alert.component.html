@@ -1,0 +1,16 @@
+<!-- je met le style ici directement -->
+<style>
+  .romain-alert {
+    position: fixed;
+    left: 20%;
+    right: 20%;
+    bottom: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+  }
+</style>
+<div class="romain-alert" ng-repeat="error in $ctrl.errors">
+  {{error}}
+</div>
