@@ -38,5 +38,6 @@
   });
 
   // Je vais vous partager cet exemple et on va le transformer
-  // en composant
+  // en composant (3 fichiers à récupérer sur github)
+  // on va créer un dossier 07-component
 }());

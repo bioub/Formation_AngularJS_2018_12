@@ -1,0 +1,15 @@
+<!-- 
+  aller y écrivez 
+  ici on a un composant on passe donc 
+  par la variable controllerAs (par défaut $ctrl)
+  on pourrait mettre le JS dans app.js
+  mais l'idée est qu'il soit réutilisable dans un autre
+  projet, donc plus simple si je n'ai que le dossier à déplacer
+  donc le composant et le controller vont etre déclaré dans un nouveau fichier
+  Les conventions dans Angular v2+
+  le fichier js doit s'appeller : nomducomposant.component.js
+  (en réalité .ts car le language n'est plus JavaScript mais TypeScript)
+  le fichier html doit s'appeller : nomducomposant.component.html
+  autant utiliser ces conventions dès maintenant
+-->
+<button ng-click="$ctrl.toggle()">{{$ctrl.state}}</button>

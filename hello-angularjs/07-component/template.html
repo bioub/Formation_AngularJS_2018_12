@@ -1,0 +1,27 @@
+<!--
+  $ctrl ici est défini sur le scope (dans AngularJS le scope existe toujours)
+  mais on va passer par cette variable plutot que par le scope directement
+-->
+<div>
+  Prénom : <input ng-model="$ctrl.prenom">
+  <button ng-click="$ctrl.add()">+</button>
+</div>
+<p ng-repeat="prenom in $ctrl.prenoms track by $index">
+  • {{prenom}} <!-- celui non, car il est sur le scope du ng-repeat -->
+</p>
+<p>{{$ctrl.prenoms.length}} prenoms</p>
+
+<!--
+  Maintenant on va pouvoir utiliser notre composant ici
+  ou dans index.html
+-->
+<!-- <button-toggle></button-toggle> ici On/Off valeur de states par défaut -->
+<!-- <button-toggle states="['Vrai', 'Faux']"></button-toggle>  -->
+<!-- <button-toggle states="['Vrai', 'Faux']" selected="Faux"></button-toggle>  -->
+
+<!--
+  idéalement, selected pourra descendre une valeur
+  mais aussi remonter la valeur selectionnée (donc 2 way binding '=')
+-->
+<button-toggle states="$ctrl.prenoms" selected="selectedPrenom"></button-toggle> 
+<p>Prénom sélectionné: {{selectedPrenom}}</p>

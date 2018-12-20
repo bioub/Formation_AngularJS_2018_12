@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body ng-app="app.module">
+  <!--
+    une directive dans AngularJS, peut être sous forme
+    - attribut A
+    - élément E
+    - className C
+    - commentaire ...
+    className et commentaire sont dépréciés.
+    Il est possible de restreinte une ou l'autre forme
+    avec restrict
+    Un composant est forcément sous la forme Element.
+  -->
+  <div list-prenoms></div>
+  <list-prenoms></list-prenoms>
+  <script src="../node_modules/angular/angular.js"></script>
+  <!-- 
+    ici il faut inclure tous les modules js du projet 
+    sauf si on utilise une bibliothèque comme browserify ou webpack
+    grace à AngularJS, l'ordre n'est pas important, il faut juste qu'ils 
+    suivent la balise angular (qui créé la variable globale angular)
+  -->
+  <script src="app.js"></script>
+  <script src="button-toggle/button-toggle.component.js"></script>
+ </body>
+</html>
