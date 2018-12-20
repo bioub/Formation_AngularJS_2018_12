@@ -1,0 +1,11 @@
+<div>
+  Prénom : <input ng-model="$ctrl.prenom">
+  <button ng-click="$ctrl.add()">+</button>
+</div>
+<p ng-repeat="prenom in $ctrl.prenoms track by $index">
+  • {{prenom}}
+</p>
+<p>{{$ctrl.prenoms.length}} prenoms</p>
+
+<!-- on utilise le filtre date pour formater la date -->
+<p>Il est {{$ctrl.now | date:'HH:mm:ss'}}</p>

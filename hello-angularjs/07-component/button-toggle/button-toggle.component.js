@@ -59,7 +59,17 @@
       state: '=selected',
       // on voit que ça rend selected obligatoire (car ce doit etre une variable)
       // mais je peux combiner avec une autre variable comme defaultState...
-      // on va déjeuner ! On reprend à 14h15-20
+      
+      // A partir de maintenant je vais écrire tous mes exemples sous
+      // forme de Component
+      // Cet après-midi, on va commencer à parler de Services
+      // Pour commencer je vais utiliser des services existant
+      // ensuite on ira créer les notres.
+
+      // Si vous voulez le faire en meme temps que moi
+      // je vais repartir de ce dossier.
+
+      // vous pouvez supprimer button-toggle.
     } 
   })
 }());
