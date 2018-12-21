@@ -1,0 +1,44 @@
+<!--
+  normalement on fait en sorte que la racine du serveur soit src
+  mais node_modules est en dehors (on peut configurer live-server
+  pour que ça fonctionne aussi, mais la commande va etre plus compliquée)
+  Ce matin on va créer 2 pages :
+  - contact-list
+  - contact-add
+  Et je vais installer un router pour afficher l'une ou l'autre de ces pages
+  en fonction de l'url.
+  Dans Angular les pages sont des composants, donc on va suivre cette convention.
+-->
+<h1>Welcome</h1>
+
+
+<h2>Menu</h2>
+<nav>
+  <!-- ui-sref="le nom de la route" -->
+  <a ui-sref="contact-add">Contact Add</a>
+  <a ui-sref="contact-list">Contact List</a>
+</nav>
+
+<div ui-view>
+  <!-- ui-view, indique à ui.router où les composants doit être insérée -->
+  <!-- On vient de créer une Single Page Application -->
+  <!--
+  
+
+  -->
+</div>
+<!--
+  C'est pour tester, mais aujourd'hui on va installer un routeur et
+  afficher l'un où l'autre des composant en fonction de l'URL, ex :
+  /contact/add -> contact-add
+  /contact -> contact-list
+  AngularJS a un routeur officiel, mais on peut également utiliser
+  un routeur open-source qui s'appelle ui-router et qui offre plus
+  de fonctionnalités (en général c'est celui utilisé)
+  Dans Angular V2+ le router s'inspire de ui-router
+  On va regarder la doc et comment l'installer.
+  Vous aller ui-router existe pour AngularJS, Angular ou React
+  (on va utiliser AngularJS évidemment)
+-->
+<!-- <contact-add></contact-add>
+<contact-list></contact-list> -->

@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "hello-angularjs"
+		},
+		{
+			"path": "address-book"
 		}
 	],
 	"settings": {}

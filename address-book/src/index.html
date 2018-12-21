@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+</head>
+<body ng-app="app.module" ng-strict-di>
+  <!-- 
+    j'inclus le composant app.component 
+    (qui s'appelle app-root dans Angular)
+    et les balises script (toutes)
+  -->
+  <app-root></app-root>
+  <script src="../node_modules/angular/angular.js"></script>
+  <script src="app/app.module.js"></script>
+  <script src="app/app.component.js"></script>
+
+  <!-- ne pas oublier d'inclure toutes les balises script
+    heureuseument grace aux modules AngularJS, je n'ai pas à les créer
+    dans l'ordre...
+  -->
+  <script src="app/contacts/contacts.module.js"></script>
+  <script src="app/contacts/contact-add/contact-add.component.js"></script>
+  <script src="app/contacts/contact-list/contact-list.component.js"></script>
+
+  <!-- ici il faut inclure ui-router -->
+  <script src="../node_modules/@uirouter/angularjs/release/angular-ui-router.js"></script>
+</body>
+</html>

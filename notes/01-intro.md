@@ -111,3 +111,26 @@ AngularJS ne respecte PAS ce principe, donc on peut avoir des changements rétro
 Mais Angular le respecte et c'est la raison qui fait qu'aujourd'hui on en est à Angular 7 déjà.
 
 Dans le package.json on devrait donc plutot remplacer le ^ par un ~ qui vérouille la version mineure (sachant que la 1.7 sera la dernière version d'AngularJS, Google a annoncé la fin du support pour 2021)
+
+
+Aujourd'hui on va créer un nouveau projet.
+On va créer un petit carnet d'adresses en Single Page Application.
+File > Add Folder to workspace 
+
+Dans ce projet, il va falloir installer AngularJS de nouveau. Donc comme mercredi, créer un fichier package.json
+avec {} à l'intérieur puis npm install angular
+
+Dans ce projet je vais utiliser les conventions de Angular v2+, notamment pour la structure des fichiers.
+
+On va créer :
+src
+- index.html
+- app
+  - app.module.js
+  - app.component.js
+  - app.component.html
+
+En fait dans Angular v2+, tout est composant, et il faut au moins un composant racine (app.component).
+
+Dans index.html
+! puis ENTREE
