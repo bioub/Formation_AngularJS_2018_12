@@ -134,3 +134,161 @@ En fait dans Angular v2+, tout est composant, et il faut au moins un composant r
 
 Dans index.html
 ! puis ENTREE
+
+# Conclusion
+
+On a terminé !
+
+Est-ce que il y a des choses que vous aimeriez voir encore ?
+Ou des questions ?
+
+Tests automatisés
+Dans une application front end on peut faire plein de tests automatisés
+- tester la sécurité
+- tester le déploiement
+- tester le code
+
+Jusqu'à maintenant dans cette formation les tests étaient manuels, c'est à dire
+que j'allais cliquer sur un bouton par exemple pour vérifier que le code fonctionne
+
+Quand l'application va grossir, ça va être de plus en plus long de retester manuellement
+
+Et au bout d'un moment je risque d'oublier de tester une fonctionnalité et ne pas voir un bug.
+
+Pour éviter ça, on va automatiser les tests et donc les coder.
+
+On retrouve différents types de tests au niveau code front-end (back end il peut y en avoir d'autres) :
+- tests unitaires
+- test d'intégration
+- test End to End (e2e)
+
+Test unitaire :
+- on ne teste que le code d'une fonction
+- idéalement la fonction est pure :
+   - prédictive, si je l'appelle avec des params et me retourne toujours le meme résultat (ex de fonction prédictive : Math.floor, ex de fonction non prédictive Math.random)
+   - sans side-effect (elle n'appelle pas de fonction extérieur)
+   - elle ne modifie pas ses paramètres d'entrée
+- quand elle n'est pas pure on peut utiliser des objets de test
+  - mock
+  - spy
+  - stub
+  dont l'objectif est de remplacer les parties impures de la fonction par du faux code
+- sinon on peut aussi écrire un test d'intégration
+
+Test d'intégration
+- le teste d'une fonction impure exécute le code des fonctions externe
+
+Test End-to-end
+- les tests dans le client (on va piloter le navigateur pour qui clic sur un bouton
+pas exemple et vérifie qu'un valeur s'affiche à l'endroit prévu)
+
+On peut retrouver tous ces types de tests dans AngularJS
+en général on a plus de test unitaire que d'intégration et plus d'intégration que e2e
+
+Il devrait former une pyramide
+
+  •  --> les tests e2e
+ ••• --> les test d'intégrations
+•••••--> les test unitaires
+
+Plus on monte dans la pyramide plus le test est compliqué à écrire et à maintenir
+(un changement dans l'interface arrive souvent et votre bouton risque d'etre déplacé
+ou supprimé), mais aussi plus ils sont long à exécuter (unitaire seulement une fonction, alors que e2e toute l'application).
+
+L'avantage des tests e2e ils exécutent beaucoup de code et permettent en moins de temps de détecter un problème, ils sont le reflets des specs de l'application (si je remplis le formulaire et que je clique sur add, je devrais etre redirigé vers la liste).
+
+L'avantage des tests unitaires est qu'ils peuvent isoler un problème (puisqu'on sait qu'il se produit dans cette fonction)
+
+Donc il faut idéalement un peu de tout.
+
+Pour écrire les tests unitaires ou d'intégration, on peut utiliser les bibliothèques (pour les plus connues) :
+- jasmine
+- mocha
+- jest
+
+Si besoin on peut lancer ces tests dans différents navigateurs (une fonction peut ne pas fonctionner sous IE) avec Karma (test runner).
+
+Pour écrire les test E2e on peut utiliser :
+- Selenium
+- WebdriverIO
+- Protractor
+- Puppeeter
+- CodeceptJS (ma préférée)
+
+Sur des projets AngularJS on retrouve le plus souvent
+- Jasmine pour unitaire/intégration
+- Protractor pour E2E (surcouche de Selenium faite par AngularJS qui ajoute la possible de selectionner par directive angular, est-ce que j'ai bien 3 element dans mon ng-repeat)
+
+On va pas faire de démo, car il faudrait tout installer et tout configurer
+mais je vous montrer les docs.
+
+Dans le developer guide ET dans le tutoriel les tests sont fait dès le début
+
+Exemple de test unitaire d'un composant avec Jasmine :
+
+```
+// describe permet de regroupe des tests (suite de tests)
+describe('phoneList', function() {
+
+  // beforeEach sera appelée avant chaque test
+  // ici beforeEach charge le module phonecatApp
+  // Load the module that contains the `phoneList` component before each test
+  beforeEach(module('phonecatApp'));
+
+  // un nouveau groupe qui pourrait avoir son propre beforeEach
+  // Test the controller
+  describe('PhoneListController', function() {
+
+    // "it" c'est le test
+    // c'est censé faire une phrase
+    // il devrait créer un model phones avec 3 téléphone
+    // en JS on appelle ça un Style BDD (Behavior Driven Development ->
+    // les specs qui dictent nos tests
+
+    // on voit aussi ici inject(), qui permet de récupérer des services
+    // ici $componentController pour récupérer l'objet controller du composant
+    it('should create a `phones` model with 3 phones', inject(function($componentController) {
+      var ctrl = $componentController('phoneList');
+
+      // la difficulté parfois ici est que le code est asynchrone
+      // ici le test est synchrone (le tableau a été créé dans le constructeur de 
+      // phoneListCtrl)
+
+      // je m'attends à ce que la longueur du tableau phones soit 3
+      expect(ctrl.phones.length).toBe(3);
+    }));
+
+  });
+
+});
+```
+
+Dans le chapitre https://docs.angularjs.org/guide/unit-testing
+Vous trouverez des exemples de tests unitaires (controllers, filtres...)
+
+Dans E2E Testing https://docs.angularjs.org/guide/e2e-testing
+des exemples de tests avec protractor
+
+Bon après il faut un peu pratiquer...
+
+D'autres questions ?
+Est-ce qu'on fait souvent des tests front-end ?
+
+Ça dépend du projet, il peut y avoir des projets ou ça n'a pas d'intérêt
+Par exemple si je fais un site pour un événement (une conférence) je peux
+faire mes tests manuellement puisque c'est une application qui sera dans la durée
+donc faire ses tests manuellement prend moins de temps que de les automatiser
+mais on gagnera du temps sur le long terme (si je dois les rejouer plusieurs fois)
+
+Ça dépend du budget, moi en freelance c'est rare qu'on me donne le budget pour écrire les tests (ça demande 50% à 100% de temps supplémentaire de les écrire)
+
+Dans l'idéal il faudrait le faire.
+
+Je vais vous partager le code et sur github, vous avez mon mail sur github si besoin
+Les exemples reste en ligne aussi vous pouvez allez voir d'autres de mes repos parfois on a eu le temps de faire quelques test par exemple...
+
+Vous pouvez aussi trouver ce carnet d'adresse en version Angular v2+
+
+C'est tout pour nous
+
+Bonnes fetes 

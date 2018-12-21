@@ -1,5 +1,37 @@
 <h2>Contact list</h2>
 
 <ul>
-  <li ng-repeat="c in $ctrl.contacts">{{c.name}}</li>
+  <li ng-repeat="c in $ctrl.contacts">
+    <!-- ici on passe l'id du contact au paramètres contactId -->
+    <a ui-sref="contact-show({contactId: c.id})">
+      {{c.name}}
+    </a>
+  </li>
 </ul>
+
+<!--
+  Pour commencer cet apres midi je vais ajouter
+  des liens sur chaque contact, qui permettront d'aller sur la page show
+  et d'afficher des information plus détaillées
+
+  Pour l'instant, l'URL de contact-show est /contact/123
+  où 123 serait l'identifiant du contact.
+  Il faut donc qu'on puisse le paramétrer
+  Pour paramétrer une URL, on va déclarer le nom du paramètres entre accolades
+  Une fois les accolades présente dans la route, le lien ne fonctionne plus
+  car il a besoin de l'id en paramètre, vous pouvez supprimer le lien
+  dans app.component puisqu'on va le placer sur les éléments de la liste
+
+  Pour faire un lien paramétré avec ui-router, on va faire comme si le nom
+  de la route était une fonction
+
+  Maintenant on va pouvoir développer la page contact-show
+  Pour contact-show, j'ai besoin de connaitre ce paramètre
+  ui-router me fourni pour ça 2 services appelée $state et $stateParams
+  on va plutot utiliser $state qui permet aussi depuis le code JS
+  de rediriger vers une autre page (par exemple dans contact-add, une fois
+  le contact ajouté, on redirigerait vers la liste)
+
+  Ensuite il faut que j'ajoute une méthode à mon service pour retrouver
+  le contact par id et ensuite l'appeler depuis le controller et ecrire le template
+-->

@@ -9,14 +9,28 @@
   ContactService.prototype.getAll = function() {
     return this.$http.get('https://jsonplaceholder.typicode.com/users')
       .then(function(res) {
-        return res.data; // comme ça dans le controller j'aurais directement la liste
+        // comme ça dans le controller j'aurais directement la liste
+        // ça simplifie le controller
+        return res.data; 
       });
   };
+
+  ContactService.prototype.getById = function(id) {
+    // presque pareil, on ajoute juste /id au bout de l'URL
+    return this.$http.get('https://jsonplaceholder.typicode.com/users/' + id)
+    .then(function(res) {
+      // comme ça dans le controller j'aurais directement la liste
+      // ça simplifie le controller
+      return res.data; 
+    });
+  };
+
+  ContactService.prototype.create = function(contact) {
+    // ici on utilise la méthode post (et non pas get)
+    return this.$http.post('https://jsonplaceholder.typicode.com/users', contact);
+  }
 
   ContactService.$inject = ['$http'];
 
   module.service('contactService', ContactService);
 }());
-
-// on va aller déjeuner on reprend à 14h
-// on finira avant 17h je pense (on a presque fini)

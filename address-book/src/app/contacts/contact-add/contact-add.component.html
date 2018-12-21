@@ -1,1 +1,122 @@
 <h2>Contact add</h2>
+
+<!--
+  attention /contact/add et /contact/{contactId}
+  sont 2 URLs très proches et on peut avoir un "conflit de route"
+  pour éviter cela, il faut toujours commencer par les routes "fixe" (/contact/add)
+  parce que sinon AngularJS va penser que add est l'id du contact
+  
+  il nous reste les formulaires
+
+  je vais créer un formulaire, par défaut les formulaires sont désactivés
+  sinon la page rechargerait au moment du submit et on perdrait toutes les
+  données JS
+  pour désactiver les formulaires, AngularJS a créé une direction form (alias ngForm)
+  on va voir que cette directive nous permet de gérer la validation
+
+  on va réutiliser ng-model ici, je vous avait montré ng-model="prenom"
+  on peut aussi demander de créer un objet avec une clé ng-model="contact.name"
+  $ctrl si on veut pouvoir retrouver le contact dans le composant JS
+
+  Pour afficher les erreurs des formulaires on peut utiliser :
+  - du css
+  - le scope
+
+  on va commencer par CSS
+
+  si vous regarder avec les outils de développement vous verrez que ngForm
+  et ngModel on créé des classes :
+  ng-pristine: rien a encore été saisi
+  ng-dirty: quand on a saisi quelque chose (meme si le form/champs est a nouveau vide)
+  ng-untouched: l'événement blur ne s'est jamais produit (le curseur n'est jamais sorti du champs)
+  ng-touched: l'événement blue s'est produit
+  ng-empty: le champs est vide
+  ng-valid: le form/champ est valide
+  ng-invalid:  le form/champ est invalide
+  ...
+
+  pour vérifier la validité on utilise les validateur HTML5, ex :
+  required
+  minlength
+  maxlength
+  min
+  max
+  pattern
+  ...
+  sur un champ de type email, on verifie le format de l'email
+
+  L'autre possibilité est de faire notre validation avec le scope
+  Pour cela, le formulaire (ngForm) a un controlleur et un scope qui lui est associé
+  Pour qu'il soit créé, il faut par contre obligatoirement ajouter un attribut name
+
+  ngForm va créer un variable sur le scope, dont le dont est la valeur donnée à name
+  dans cette variable on retrouve les memes valeurs que les classes :
+  $invalid, $pristine, $untouched....
+  (rappelez vous, dans AngularJS, les clés préfixées par $$ sont privées
+  celle préfixées par $ sont en lecture seule)
+
+  Pour valider les champs, c'est la même chose il faut leur donner un name
+
+  A ce moment là, AngularJS va ajouter des clés à la variable du ngForm
+  (ici contactForm)
+
+  Si vous voulez que la validation soit faite entièrement pas AngularJS
+  il faut désactiver la validation HTML5 avec novalidate
+
+  maintenant ce qu'il manque c'est de faire la validation aussi au moment
+  du submit (si je clique directement sans rien saisir je ne vois les messages)
+  pour ça on va utiliser la valeur submitted sur le formulaire
+
+  maintenant il nous reste plus qu'à envoyer les données
+  au submit du formulaire on appelle la methode add du controlleur
+
+  pour empeche de la methode soit appeler quand le formulaire n'est pas valide
+  je vais ajouter un if sous forme d'un ET Logique
+  dans un ET logique si la première condition est fausse on interprete pas la
+  2e partie
+  il nous reste plus qu'à envoyer les données au serveur puis rediriger
+-->
+<form name="contactForm" novalidate ng-submit="contactForm.$valid && $ctrl.add()">
+  <p>
+    Name: <input name="name" required ng-model="$ctrl.contact.name">
+    <span class="message-required">
+      Le nom est obligatoire (CSS)
+    </span>
+    <span ng-if="contactForm.name.$invalid && (contactForm.name.$touched || contactForm.$submitted)">
+        Le nom est obligatoire (SCOPE)
+      </span>
+  </p>
+  <p>
+    Email: <input name="email" type="email" ng-model="$ctrl.contact.email">
+    <!-- je trouve ça plus simple qu'en CSS (soit touched soit le form submitted) -->
+    <span ng-if="contactForm.email.$invalid && (contactForm.email.$touched || contactForm.$submitted)">
+      L'email n'est pas valide
+    </span>
+  </p>
+  <p>Téléphone: <input name="phone" maxlength="20" ng-model="$ctrl.contact.phone"></p>
+  <button>Add</button>
+</form>
+<style>
+  /* je vais créer des propriétés css sur ces classes */
+  /* si on veut que la validation se fasse sur l'évenement blur 
+    il faut que ng-invalid et ng-touched soit présents
+    on peut aussi afficher des messages ou non grace à ça
+  */
+  input.ng-invalid.ng-touched {
+    border: 2px solid red; /* les champs invalides encadrés en rouge */
+  }
+
+  /* je masque le message par défaut */
+  .message-required {
+    display: none;
+  }
+
+  /* s'il suit un input.ng-invalid.ng-touched je l'affiche */
+  /* ~ veut dire que les 2 éléments on le même parent mais que .message-required
+  vient après, pas forcément juste après sinon on aurait mis + au lieu de ~ */
+  /* plus compliqué en CSS */
+  form.ng-submitted input.ng-invalid ~ .message-required,
+  input.ng-invalid.ng-touched ~ .message-required {
+    display: inline;
+  }
+</style>

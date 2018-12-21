@@ -42,7 +42,29 @@
 
   // il faut que j'annote ici (soit avec le tableau soit avec $inject)
   // config permet de paramétrer les provider
-  module.config(['$stateProvider', function($stateProvider) {
+  module.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
+
+    // dans la doc d'API, on trouve aussi les méthodes des providers
+    // $locationProvider.html5Mode(true);
+    // affiche maintenant une erreur :
+    // $location in HTML5 mode requires a <base> tag to be present!
+    // le mode HTML5 (qui utilise pushState) veut une balise base
+
+    // en mode HTML5 il n'y a pas le #!
+    // MAIS, coté serveur il faut faire de la réécriture d'URL pour que toutes
+    // les URLs servent le fichier index.html (sinon si quelqu'un tape directement
+    // /contact il aura une erreur 404)
+    // avec live-server c'est une options au démarage je crois
+
+    // si on est pas en mode HTML5, on utilise le # qui existe depuis longtemps
+    // pour les liens interne à une page (ex: sommaire sur wikipedia)
+    // et qui a l'avantage de permettre un historique (précédent / suivant)
+
+    // il y a beaucoup de chose de ce type qu'on ne verra pas forcément
+    // mais après vous avez la docs
+    // aussi pensez à faire le tutoriel sur le site AngularJS
+    // il y aura peut etre des choses nouvelles par rapport à la formation
+    // déjà vous verrez le routeur officiel (et pas ui-router)
 
     // ici je peux créer une Route
     // je connais plus la doc par coeur, donc on va regarder un exemple
@@ -58,9 +80,10 @@
       component: 'contactAdd'
     });
 
+    // pas de conflit si cette route est à la fin
     $stateProvider.state({
       name: 'contact-show',
-      url: '/contact/123',
+      url: '/contact/{contactId}',
       component: 'contactShow'
     });
 

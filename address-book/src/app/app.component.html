@@ -17,7 +17,6 @@
   <!-- ui-sref="le nom de la route" -->
   <a ui-sref="contact-add">Contact Add</a>
   <a ui-sref="contact-list">Contact List</a>
-  <a ui-sref="contact-show">Contact Show</a>
 </nav>
 
 <div ui-view>
@@ -43,3 +42,14 @@
 -->
 <!-- <contact-add></contact-add>
 <contact-list></contact-list> -->
+
+
+<!--
+  vous avez peut etre remarqué que un #! est présent dans l'url
+
+  historiquement, on ne pouvait pas modifier l'url de la page et rester 
+  sur la même page, c'est possible depuis quelques années avec history.pushState
+  (IE10+ je crois)
+  
+  on peut activer cet API avec AngularJS, en configurant le service $location
+-->
