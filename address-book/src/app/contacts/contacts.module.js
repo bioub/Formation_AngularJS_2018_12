@@ -18,5 +18,7 @@
   var module = angular.module('contacts/contacts.module', [
     'contacts/contact-list/contact-list.component',
     'contacts/contact-add/contact-add.component',
+    'contacts/contact-show/contact-show.component',
+    'contacts/contact.service',
   ]);
 }());

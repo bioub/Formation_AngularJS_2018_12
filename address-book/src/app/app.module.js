@@ -58,6 +58,12 @@
       component: 'contactAdd'
     });
 
+    $stateProvider.state({
+      name: 'contact-show',
+      url: '/contact/123',
+      component: 'contactShow'
+    });
+
     // il me reste 2 choses à faire :
     // 1 - générer les liens vers ces routes (directive ui-sref)
     // 2 - indiquer où le composant doit s'afficher dans mon HTML (directive ui-view)
